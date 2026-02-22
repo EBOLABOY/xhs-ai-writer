@@ -114,7 +114,7 @@ export interface GeneratedContent {
 /**
  * 表单数据接口
  */
-export interface FormData {
+export interface GeneratorFormData {
   keyword: string;
   userInfo: string;
 }

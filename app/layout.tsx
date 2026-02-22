@@ -6,38 +6,47 @@ import { SpeedInsights } from "@vercel/speed-insights/next"
 import StructuredData from '../components/StructuredData'
 import { ThemeProvider } from '@/components/theme-provider'
 import ThemeToggle from '@/components/theme-toggle'
+import Link from 'next/link'
+import { Github, PenLine } from 'lucide-react'
 
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://your-domain.com'), // 请替换为您的实际域名
-  title: 'AI小红书爆款文案生成器 - 智能分析与一键创作工具',
-  description: '使用AI小红书爆款文案生成器，通过智能分析热门笔记，一键创作出充满"人味"的高质量标题、正文和标签，轻松提升您的笔记流量。支持多种内容类型，包括穿搭、美食、旅行、职场等。',
-  keywords: 'AI小红书文案生成器,小红书爆款文案,小红书AI写作,小红书标题生成,小红书文案工具,AI写作助手,小红书营销工具',
-  authors: [{ name: 'AI小红书爆款文案生成器' }],
-  creator: 'AI小红书爆款文案生成器',
-  publisher: 'AI小红书爆款文案生成器',
+  metadataBase: new URL('https://your-domain.com'),
+  title: 'AI 小红书爆款文案生成器 | 智能构思与专业排版',
+  description: '由人工智能驱动的小红书文案创作引擎。结构化分析爆款核心，零门槛生成爆款标题、高质量正文与相关标签。',
+  keywords: 'AI写作,小红书爆款文案,智能排版,文案生成器,自媒体工具',
+  authors: [{ name: 'Creator' }],
   robots: 'index, follow',
-  openGraph: {
-    title: 'AI小红书爆款文案生成器 - 智能分析与一键创作工具',
-    description: '使用AI小红书爆款文案生成器，通过智能分析热门笔记，一键创作出充满"人味"的高质量标题、正文和标签，轻松提升您的笔记流量。',
-    type: 'website',
-    locale: 'zh_CN',
-    images: [
-      {
-        url: '/og-image.svg',
-        width: 1200,
-        height: 630,
-        alt: 'AI小红书爆款文案生成器 - 智能分析与一键创作工具',
-      },
-    ],
-  },
-  twitter: {
-    card: 'summary_large_image',
-    title: 'AI小红书爆款文案生成器 - 智能分析与一键创作工具',
-    description: '使用AI小红书爆款文案生成器，通过智能分析热门笔记，一键创作出充满"人味"的高质量标题、正文和标签，轻松提升您的笔记流量。',
-    images: ['/og-image.svg'],
-  },
+}
+
+// 极简顶部导航栏组件
+function GlobalNavbar() {
+  return (
+    <header className="sticky top-0 z-50 w-full border-b bg-background/80 backdrop-blur-md">
+      <div className="container mx-auto max-w-6xl px-4 sm:px-6 h-14 flex items-center justify-between">
+        <Link href="/" className="flex items-center gap-2 group transition-opacity hover:opacity-80">
+          <div className="bg-primary text-primary-foreground p-1.5 rounded-md">
+            <PenLine className="w-4 h-4" />
+          </div>
+          <span className="font-semibold text-sm tracking-tight hidden sm:inline-block">
+            XHS Writer <span className="text-muted-foreground font-normal ml-1">AI 写作引擎</span>
+          </span>
+        </Link>
+        <div className="flex items-center gap-4">
+          <a
+            href="https://github.com/EBOLABOY/xhs-ai-writer"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-muted-foreground hover:text-foreground transition-colors"
+          >
+            <Github className="w-4 h-4" />
+          </a>
+          <ThemeToggle />
+        </div>
+      </div>
+    </header>
+  )
 }
 
 export default function RootLayout({
@@ -50,10 +59,17 @@ export default function RootLayout({
       <head>
         <StructuredData />
       </head>
-      <body className={`${inter.className} antialiased selection:bg-blue-200/50 selection:text-blue-900 dark:selection:bg-blue-800/30 dark:selection:text-blue-100`}>
+      <body className={`${inter.className} min-h-screen flex flex-col bg-background text-foreground antialiased selection:bg-primary/10 selection:text-primary`}>
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
-          {children}
-          <ThemeToggle />
+          {/* 全局高级背景 */}
+          <div className="fixed inset-0 z-[-1] bg-background bg-grid-pattern pointer-events-none [mask-image:radial-gradient(ellipse_at_center,transparent_20%,black)] dark:[mask-image:linear-gradient(to_bottom,black,transparent)]" />
+
+          <GlobalNavbar />
+
+          <main className="relative flex-1">
+            {children}
+          </main>
+
           <Analytics />
           <SpeedInsights />
         </ThemeProvider>
