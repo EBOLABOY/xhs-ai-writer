@@ -4,6 +4,8 @@ import './globals.css'
 import { Analytics } from "@vercel/analytics/next"
 import { SpeedInsights } from "@vercel/speed-insights/next"
 import StructuredData from '../components/StructuredData'
+import { ThemeProvider } from '@/components/theme-provider'
+import ThemeToggle from '@/components/theme-toggle'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -44,14 +46,17 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="zh-CN">
+    <html lang="zh-CN" suppressHydrationWarning>
       <head>
         <StructuredData />
       </head>
-      <body className={inter.className}>
-        {children}
-        <Analytics />
-        <SpeedInsights />
+      <body className={`${inter.className} antialiased selection:bg-blue-200/50 selection:text-blue-900 dark:selection:bg-blue-800/30 dark:selection:text-blue-100`}>
+        <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
+          {children}
+          <ThemeToggle />
+          <Analytics />
+          <SpeedInsights />
+        </ThemeProvider>
       </body>
     </html>
   )
